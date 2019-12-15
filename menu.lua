@@ -3,7 +3,7 @@
 -- blip sur la carte
 
 local blips = {
-   --{title="valentine", id=1687768444, x=-322.25, y=803.97, z=116.95},
+   {title="valentine", id=1560611276, x=-360.20, 740.00, 116.00},
 }
 
 Citizen.CreateThread(function()
@@ -46,31 +46,6 @@ Citizen.CreateThread(function()
             end
 
             WarMenu.Display()
-
-        elseif WarMenu.IsMenuOpened('ped2') then   
-            if WarMenu.Button('Appeler pour 5 $') then
-                TriggerServerEvent("buy:guard", 5) 
-               --TriggerEvent('redemrp_skin:openCreator')
-            --elseif WarMenu.Button('Perso online') then
-                 --SetPlayerModel(ped, `mp_male`, true)
-            --elseif WarMenu.Button('Perso Arthur') then
-                 --SetPlayerModel(ped, `player_zero`, true) -- if you dont have redemrp_skin - si tu as pas redemrp_skin
-            end
-
-            WarMenu.Display()
-
-        elseif WarMenu.IsMenuOpened('ped3') then   
-            if WarMenu.Button('Appeler pour 10 $') then
-                TriggerServerEvent("buy:guard", 10) 
-               --SetPlayerModel(ped, `mp_male`, true)
-            --elseif WarMenu.Button('Perso online') then
-                 --SetPlayerModel(ped, `mp_male`, true)
-            --elseif WarMenu.Button('Perso Arthur') then
-                 --SetPlayerModel(ped, `player_zero`, true) -- if you dont have redemrp_skin - si tu as pas redemrp_skin
-            end
-
-            WarMenu.Display()
-
         elseif (Vdist(coords.x, coords.y, coords.z, -360.20, 740.00, 116.00) < 2.0) then
                TriggerEvent("enter:guard")
                if IsControlJustReleased(0, 0xC7B5340A) then
@@ -109,9 +84,7 @@ RegisterNetEvent('enter:guard')
 
 RegisterNetEvent('loadguard')
 AddEventHandler('loadguard', function(kek) 
-
     TriggerEvent("bart", true)
-    ---TriggerServerEvent("redemrp_skin:createSkin", kek) -- save on db work
 end)
 
 ---- spawn npc
@@ -124,7 +97,6 @@ function lePlayerModel(name)
     PerformRequest(model)
     
     if HasModelLoaded(model) then
-        -- SetPlayerModel(player, model, false)
         Citizen.InvokeNative(0xED40380076A31506, player, model, false)
         Citizen.InvokeNative(0x283978A15512B2FE, PlayerPedId(), true)
         SetModelAsNoLongerNeeded(model)
