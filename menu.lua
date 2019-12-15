@@ -1,3 +1,27 @@
+-- RPFSTUDIO BODYGUARD 1.0 WIP
+
+RegisterNetEvent('bart')
+AddEventHandler('bart', function(source, args) 
+	CreateThread(function()
+		local model = `mp_male`
+		PerformRequest(model)
+		local x, y, z = table.unpack(GetEntityCoords(PlayerPedId(), 0))
+		bart = CreatePed(model, x+2, y+2, z, 0.0, true, true, true, true)
+		Citizen.InvokeNative(0x283978A15512B2FE, bart, true)
+		
+		SetPedOutfitPreset(bart, 38)
+		Citizen.Wait(500)
+		SetPedAsCharacter(bart, "bart")
+		Citizen.Wait(500)
+		
+		PerformRequest("w_shotgun_doublebarrel01")
+		GiveWeapon(bart, "WEAPON_SHOTGUN_DOUBLEBARREL", 500, false, 1, false, 0.0)
+		SetModelAsNoLongerNeeded("w_shotgun_doublebarrel01")
+		
+		Citizen.Wait(500)		
+		SetPedAsGroupMember(bart, GetPedGroupIndex(PlayerPedId()))
+	end)
+end)
 
 -- blips on the map
 -- blip sur la carte
