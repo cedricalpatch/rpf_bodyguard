@@ -1,28 +1,5 @@
 -- RPFSTUDIO BODYGUARD 1.0 WIP
 
-RegisterNetEvent('bart')
-AddEventHandler('bart', function(source, args) 
-	CreateThread(function()
-		local model = `mp_male`
-		PerformRequest(model)
-		local x, y, z = table.unpack(GetEntityCoords(PlayerPedId(), 0))
-		bart = CreatePed(model, x+2, y+2, z, 0.0, true, true, true, true)
-		Citizen.InvokeNative(0x283978A15512B2FE, bart, true)
-		
-		SetPedOutfitPreset(bart, 38)
-		Citizen.Wait(500)
-		SetPedAsCharacter(bart, "bart")
-		Citizen.Wait(500)
-		
-		PerformRequest("w_shotgun_doublebarrel01")
-		GiveWeapon(bart, "WEAPON_SHOTGUN_DOUBLEBARREL", 500, false, 1, false, 0.0)
-		SetModelAsNoLongerNeeded("w_shotgun_doublebarrel01")
-		
-		Citizen.Wait(500)		
-		SetPedAsGroupMember(bart, GetPedGroupIndex(PlayerPedId()))
-	end)
-end)
-
 -- blips on the map
 -- blip sur la carte
 
@@ -104,35 +81,19 @@ RegisterNetEvent('enter:guard')
     Citizen.InvokeNative(0xE9990552DEC71600)
   end)
 
--- save clothe
+-- save guard
 
-RegisterNetEvent('loadguard')
-AddEventHandler('loadguard', function(kek) 
-    TriggerEvent("bart", true)
-end)
+--RegisterNetEvent('loadguard')
+--AddEventHandler('loadguard', function(kek) 
+   -- TriggerEvent("bart", true)
+--end)
 
 ---- spawn npc
 
-function lePlayerModel(name)
-    local model = GetHashKey(name)
-    local player = PlayerId()
-    
-    if not IsModelValid(model) then return end
-    PerformRequest(model)
-    
-    if HasModelLoaded(model) then
-        Citizen.InvokeNative(0xED40380076A31506, player, model, false)
-        Citizen.InvokeNative(0x283978A15512B2FE, PlayerPedId(), true)
-        SetModelAsNoLongerNeeded(model)
-    end
-end
-
 local function PerformRequest(hash)
     print("requesting model " .. hash)
-    
-    if HasModelLoaded(hash) == 1 then return end
 
-    Citizen.InvokeNative(0xFA28FE3A6246FC30, hash, 0) -- RequestModel
+    RequestModel(hash, 0) -- RequestModel
 
     local times = 1
 
@@ -150,3 +111,42 @@ local function PerformRequest(hash)
         if times >= 100 then break end
     end
 end
+        
+function lePlayerModel(name)
+    local model = GetHashKey(name)
+    local player = PlayerId()
+    
+    if not IsModelValid(model) then return end
+    PerformRequest(model)
+    
+    if HasModelLoaded(model) then
+        -- SetPlayerModel(player, model, false)
+        Citizen.InvokeNative(0xED40380076A31506, player, model, false)
+        Citizen.InvokeNative(0x283978A15512B2FE, PlayerPedId(), true)
+        SetModelAsNoLongerNeeded(model)
+    end
+end
+
+RegisterNetEvent('bart')
+AddEventHandler('bart', function(source, args) 
+    CreateThread(function()
+        local model = `mp_male`
+        PerformRequest(model)
+        local x, y, z = table.unpack(GetEntityCoords(PlayerPedId(), 0))
+        bart = CreatePed(model, x+2, y+2, z, 0.0, true, true, true, true)
+        Citizen.InvokeNative(0x283978A15512B2FE, bart, true)
+        
+        SetPedOutfitPreset(bart, 38)
+        Citizen.Wait(500)
+        SetPedAsCharacter(bart, "bart")
+        Citizen.Wait(500)
+        
+        PerformRequest("w_shotgun_doublebarrel01")
+        GiveWeapon(bart, "WEAPON_SHOTGUN_DOUBLEBARREL", 500, false, 1, false, 0.0)
+        SetModelAsNoLongerNeeded("w_shotgun_doublebarrel01")
+        
+        Citizen.Wait(500)
+        
+        SetPedAsGroupMember(bart, GetPedGroupIndex(PlayerPedId()))
+    end)
+end)
