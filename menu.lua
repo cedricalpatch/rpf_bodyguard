@@ -20,8 +20,6 @@ Citizen.CreateThread(function()
     WarMenu.CreateMenu('guard', "Garde du corp")
     WarMenu.SetSubTitle('guard', 'Louer son service')
     WarMenu.CreateSubMenu('ped', 'guard', 'Garde du corp')
-    WarMenu.CreateSubMenu('ped2', 'guard', 'Garde du corp')
-     WarMenu.CreateSubMenu('ped3', 'guard', 'Garde du corp')
 
 
     while true do
@@ -30,12 +28,6 @@ Citizen.CreateThread(function()
         local coords = GetEntityCoords(PlayerPedId())
 
         if WarMenu.IsMenuOpened('guard') then
-
-            if WarMenu.MenuButton('Arthur', 'ped3') then 
-            end
-
-            if WarMenu.MenuButton('Bart', 'ped2') then 
-            end
 
             if WarMenu.MenuButton('Sont disponible', 'ped') then
             end
@@ -83,10 +75,10 @@ RegisterNetEvent('enter:guard')
 
 -- save guard
 
---RegisterNetEvent('loadguard')
---AddEventHandler('loadguard', function(kek) 
-   -- TriggerEvent("bart", true)
---end)
+RegisterNetEvent('loadguard')
+AddEventHandler('loadguard', function(kek) 
+   TriggerEvent("bart", true)
+end)
 
 ---- spawn npc
 
